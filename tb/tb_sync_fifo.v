@@ -19,7 +19,6 @@ module tb_sync_fifo;
     integer i;
     integer errors;
 
-
     // Instantiate FIFO
     sync_fifo #(
         .DATA_WIDTH(DATA_WIDTH),
@@ -35,7 +34,6 @@ module tb_sync_fifo;
         .empty(empty)
     );
 
-
     // 100 MHz Clock
     always #5 clk = ~clk;
 
@@ -49,11 +47,7 @@ module tb_sync_fifo;
         data_in = 0;
         errors  = 0;
 
-
-        // -------------------------------
         // RESET TEST
-        // -------------------------------
-
         #20;
         rst = 0;
 
@@ -66,11 +60,7 @@ module tb_sync_fifo;
             errors = errors + 1;
         end
 
-
-        // -------------------------------
         // WRITE TEST
-        // -------------------------------
-
         $display("\nWriting 8 values...");
 
         for (i = 1; i <= 8; i = i + 1) begin
@@ -92,11 +82,7 @@ module tb_sync_fifo;
 
         wr_en = 0;
 
-
-        // -------------------------------
         // FULL FLAG TEST
-        // -------------------------------
-
         #1;
 
         if (full)
@@ -106,11 +92,7 @@ module tb_sync_fifo;
             errors = errors + 1;
         end
 
-
-        // -------------------------------
         // OVERFLOW TEST
-        // -------------------------------
-
         @(negedge clk);
 
         wr_en   = 1;
@@ -126,11 +108,7 @@ module tb_sync_fifo;
 
         $display("Overflow write attempted");
 
-
-        // -------------------------------
         // READ TEST
-        // -------------------------------
-
         $display("\nReading FIFO...");
 
         for (i = 1; i <= 8; i = i + 1) begin
@@ -160,10 +138,7 @@ module tb_sync_fifo;
         rd_en = 0;
 
 
-        // -------------------------------
         // EMPTY FLAG TEST
-        // -------------------------------
-
         #1;
 
         if (empty)
@@ -173,11 +148,7 @@ module tb_sync_fifo;
             errors = errors + 1;
         end
 
-
-        // -------------------------------
         // UNDERFLOW TEST
-        // -------------------------------
-
         @(negedge clk);
 
         rd_en = 1;
@@ -193,10 +164,7 @@ module tb_sync_fifo;
         $display("Underflow read attempted");
 
 
-        // -------------------------------
         // FINAL RESULT
-        // -------------------------------
-
         #20;
 
         if (errors == 0)
